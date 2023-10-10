@@ -20,7 +20,7 @@ pedidos.to_sql('pedidos', engine, index=False)
 vendedores.to_sql('vendedores', engine, index=False)
 
 inspector = inspect(engine)
-print(inspector.get_table_names())
+#print(inspector.get_table_names())
 
 query = 'SELECT CONDICAO FROM PRODUTOS'
 
@@ -30,9 +30,21 @@ with engine.connect() as  conexao:
 
 pd.DataFrame(dados,columns=consulta.keys())
 
-def sql_def(query):
+def sql_df(query):
     with engine.connect() as  conexao:
         consulta = conexao.execute(text(query))
         dados = consulta.fetchall()
 
     return pd.DataFrame(dados,columns=consulta.keys())
+
+query = '''SELECT CONDICAO, COUNT(*) AS 'Quantidade'
+FROM PRODUTOS 
+GROUP BY CONDICAO;'''
+
+df_produtos = sql_df(query)
+print(df_produtos)
+
+plt.bar(df_produtos['Condicao'],df_produtos['Quantidade'],  color='#9353FF')
+plt.title('Contagem por tipo de condições dos produtos')
+plt.show()
+
