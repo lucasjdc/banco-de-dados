@@ -7,6 +7,9 @@ url_pedidos = 'https://github.com/alura-cursos/SQL-python-integracao/raw/main/TA
 url_produto = 'https://github.com/alura-cursos/SQL-python-integracao/raw/main/TABELAS/produtos.csv'
 url_vendedores = 'https://github.com/alura-cursos/SQL-python-integracao/raw/main/TABELAS/vendedores.csv'
 
+def pula_linha():
+    print("\n")
+
 itens_pedidos = pd.read_csv(url_itens_pedidos)
 pedidos = pd.read_csv(url_pedidos)
 produtos = pd.read_csv(url_produto)
@@ -37,6 +40,8 @@ def sql_df(query):
 
     return pd.DataFrame(dados,columns=consulta.keys())
 
+
+pula_linha()
 query = '''SELECT CONDICAO, COUNT(*) AS 'Quantidade'
 FROM PRODUTOS 
 GROUP BY CONDICAO;'''
@@ -46,5 +51,19 @@ print(df_produtos)
 
 plt.bar(df_produtos['Condicao'],df_produtos['Quantidade'],  color='#9353FF')
 plt.title('Contagem por tipo de condições dos produtos')
-plt.show()
+#plt.show() // visualizar o gráfico
+
+pula_linha()
+print(sql_df('SELECT * FROM PRODUTOS').head(3))
+pula_linha()
+print(sql_df('SELECT * FROM ITENS_PEDIDOS').head(3))
+
+query = '''SELECT PRODUTOS.PRODUTO, SUM(ITENS_PEDIDOS.QUANTIDADE) As Quantidade
+FROM ITENS_PEDIDOS, PRODUTOS
+WHERE ITENS_PEDIDOS.PRODUTO_ID  = PRODUTOS.PRODUTO_ID
+GROUP BY PRODUTOS.PRODUTO'''
+
+pula_linha()
+print(sql_df(query))
+
 
