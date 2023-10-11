@@ -81,4 +81,12 @@ sql_df('SELECT * FROM PEDIDOS').head(3)
 pula_linha()
 sql_df('SELECT * FROM PEDIDOS').info(3)
 
+query = '''SELECT VENDEDOR_ID, COUNT(*)
+FROM  PEDIDOS
+WHERE strftime('%Y',data_compra) = '2020'
+GROUP BY VENDEDOR_ID;
+'''
+
+print(sql_df(query))
+
 
