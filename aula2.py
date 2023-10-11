@@ -60,10 +60,19 @@ print(sql_df('SELECT * FROM ITENS_PEDIDOS').head(3))
 
 query = '''SELECT PRODUTOS.PRODUTO, SUM(ITENS_PEDIDOS.QUANTIDADE) As Quantidade
 FROM ITENS_PEDIDOS, PRODUTOS
-WHERE ITENS_PEDIDOS.PRODUTO_ID  = PRODUTOS.PRODUTO_ID
-GROUP BY PRODUTOS.PRODUTO'''
+WHERE ITENS_PEDIDOS.PRODUTO_ID = PRODUTOS.PRODUTO_ID
+GROUP BY PRODUTOS.PRODUTO
+ORDER BY Quantidade ASC'''
+
+#ASC ordem crescente DESC ordem decrescente
 
 pula_linha()
-print(sql_df(query))
+df_prod_quant = sql_df(query)
+print(df_prod_quant)
+
+plt.barh(df_prod_quant['produto'][-10:], df_prod_quant['Quantidade'][-10:], color='#9353FF')
+plt.xlabel('Quantidade vendida')
+plt.show()
+
 
 
