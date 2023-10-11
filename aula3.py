@@ -89,4 +89,43 @@ GROUP BY VENDEDOR_ID;
 
 print(sql_df(query))
 
+## Selecionar dados do ano de 2019
+query = '''
+SELECT strftime('%m', data_compra) AS mes, COUNT(*) AS quantidade_vendas
+FROM pedidos
+WHERE strftime('%Y', data_compra) = '2019'
+GROUP BY mes;
+'''
+vendas_19 = sql_df(query)
+
+## Selecionar dados do ano de 2020
+query = '''
+SELECT strftime('%m', data_compra) AS mes, COUNT(*) AS quantidade_vendas
+FROM pedidos
+WHERE strftime('%Y', data_compra) = '2020'
+GROUP BY mes;
+'''
+vendas_20 = sql_df(query)
+
+# Plotar o gráfico de 2019 e 2020
+#plt.figure(figsize=(5, 3))
+plt.plot(vendas_19.mes.to_numpy(), vendas_19.quantidade_vendas.to_numpy(), marker='o', linestyle='-', color='#9353FF', label = '2019')
+plt.plot(vendas_20.mes.to_numpy(), vendas_20.quantidade_vendas.to_numpy(), marker='o', linestyle='-', color='#C0ED22', label = '2020')
+
+# Definir título e eixos
+plt.title('Vendas em 2019 e 2020')
+plt.xlabel('Meses')
+plt.ylabel('Quantidade de Vendas')
+
+# Adicionar a legenda
+plt.legend()
+
+# Adicionar grid horizontal
+plt.grid(axis='y', linestyle='--')
+
+# Exibir a figura
+#plt.show()
+
+
+
 
