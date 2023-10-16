@@ -16,4 +16,4 @@ CREATE TABLE cliente(
 
 /*ALTER TABLE cliente ADD i_tipo_cliente INT DEFAULT 1;*/
 
-ALTER TABLE cliente DROP COLUMN i_tipo_cliente;
+/*ALTER TABLE cliente DROP COLUMN i_tipo_cliente;*/
